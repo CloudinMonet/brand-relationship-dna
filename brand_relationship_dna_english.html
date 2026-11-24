@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand Relationship DNA</title>
+<style>
+:root{--ink:#514b61;--muted:#898398;--pink:#f8dce8;--lav:#e9e2fa;--blue:#dff0f7;--mint:#dff2e8;--peach:#fbe8d9;--yellow:#fff3cf;--paper:#fffdfb;--line:#eee8ef;--accent:#a88bd5}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(135deg,#fff1f5,#f2efff 48%,#eef9f4);font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);padding:26px 16px}
+.wrap{max-width:760px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;color:#8d819d;font-size:13px;font-weight:700;letter-spacing:.04em}
+.pill{background:#fff9;border:1px solid #fff;padding:8px 13px;border-radius:99px}
+.card{background:#ffffffeb;border:1px solid #fff;border-radius:28px;padding:clamp(22px,5vw,42px);box-shadow:0 18px 55px #8c78a51c}
+.eyebrow{color:#aa8dc9;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+h1{font-size:clamp(34px,7vw,54px);line-height:1.04;margin:14px 0 12px;letter-spacing:-.04em}
+h2{font-size:clamp(24px,5vw,32px);line-height:1.15;margin:12px 0}
+p{line-height:1.65;color:#777185}.sub{font-size:17px;max-width:570px}
+.btn{border:0;border-radius:16px;padding:14px 20px;font-weight:800;font-size:15px;cursor:pointer;background:#aa91d4;color:white;box-shadow:0 6px 0 #8f77b8;transition:.15s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #8f77b8}
+.btn.secondary{background:#f3edf9;color:#806a9d;box-shadow:none}
+.progress{height:9px;background:#f0ebf3;border-radius:99px;overflow:hidden;margin:22px 0 28px}.bar{height:100%;width:0;background:linear-gradient(90deg,#f1b9d1,#b8a5e8,#a7d9c3);border-radius:99px;transition:.25s}
+.qnum{font-size:12px;color:#a49aaa;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.question{font-size:clamp(23px,4.5vw,30px);line-height:1.25;margin:10px 0 22px}
+.answers{display:grid;gap:11px}.answer{width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:17px;padding:16px 17px;color:#5d566c;font:600 15px/1.45 inherit;cursor:pointer;transition:.15s}
+.answer:hover{border-color:#c4addf;background:#fcf9ff;transform:translateY(-1px)}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:24px}
+.hidden{display:none!important}.small{font-size:13px;color:#9a93a3}
+.typegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:22px 0}
+.type{border:1px solid var(--line);border-radius:19px;padding:16px;background:#fff}.type .emoji{font-size:25px}.type h3{margin:8px 0 5px;font-size:16px}.type p{font-size:13px;margin:0}
+.resultHero{border-radius:23px;padding:24px;background:linear-gradient(120deg,#fff0f5,#f1edff 55%,#eaf8f1);margin:20px 0}
+.scoreline{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin:10px 0 5px}.track{height:8px;background:#f0edf2;border-radius:20px;overflow:hidden}.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#edb7d0,#b7a7e7)}
+footer{text-align:center;font-size:12px;color:#a39baa;margin:18px 0}
+@media(max-width:520px){body{padding:14px 10px}.card{border-radius:22px}.actions .btn{flex:1}}
+</style></head><body><div class="wrap">
+<div class="top"><span>✿ THE BRAND LAB</span><span class="pill">A little self-discovery</span></div>
+<main class="card">
+<section id="intro">
+<div class="eyebrow">A fun classroom activity</div><h1>Brand Relationship<br><span style="color:#b494d7">DNA</span> ✨</h1>
+<p class="sub">What kind of relationship do you have with the brands you love? Explore your shopping instincts, brand feelings, and what makes a brand feel like <em>your</em> brand.</p>
+<div style="display:flex;gap:9px;flex-wrap:wrap;margin:22px 0"><span class="pill">15 quick questions</span><span class="pill">About 3 minutes</span><span class="pill">6 playful profiles</span></div>
+<p class="small">Choose the answer that feels most like you. There are no right or wrong answers. This is a classroom reflection activity, not a validated psychological test.</p>
+<button class="btn" onclick="start()">Let's find my brand vibe →</button>
+</section>
+<section id="quiz" class="hidden">
+<div class="qnum" id="qnum"></div><div class="progress"><div class="bar" id="bar"></div></div>
+<div class="question" id="question"></div><div class="answers" id="answers"></div>
+<div class="actions"><button class="btn secondary" onclick="back()">← Back</button><span class="small" id="step"></span></div>
+</section>
+<section id="result" class="hidden">
+<div class="eyebrow">Your brand relationship profile</div><div class="resultHero"><div id="resultEmoji" style="font-size:38px"></div><h2 id="resultName"></h2><p id="resultDesc"></p></div>
+<h3>Your brand mix</h3><div id="scores"></div><div id="secondary"></div>
+<h3 style="margin-top:28px">A few brands to think about</h3><p id="brands"></p>
+<div class="typegrid" id="traits"></div>
+<div class="resultHero"><b>💬 Take it to the classroom</b><p id="prompt"></p></div>
+<p class="small">Your result is based on the choices you made in this quiz. It is designed for discussion and self-reflection—not diagnosis or scientific personality assessment.</p>
+<div class="actions"><button class="btn secondary" onclick="copyResult()">Copy my result</button><button class="btn" onclick="restart()">Try again ↻</button></div>
+</section></main><footer>Made for curious consumers · Stay curious, stay you ✿</footer></div>
+<script>
+const profiles={
+loyal:{name:"The Emotional Loyalist",emoji:"💗",color:"#f2b9d0",desc:"For you, a brand is more than a product. Familiarity, memories, trust, and emotional connection make a brand feel special. Once a brand earns your affection, you’re happy to stick around.",brands:"Think about brands you associate with memories, comfort, or a sense of belonging.",traits:["Emotion-led","Trust & familiarity","Long-term connection"],prompt:"Which brand feels like an old friend to you? What has it done to earn that place?"},
+status:{name:"The Status Seeker",emoji:"💎",color:"#c7b6e9",desc:"Brands can be a form of self-expression. You notice the image, identity, and social meaning a brand communicates—and you enjoy choosing brands that reflect who you are or who you aspire to be.",brands:"Think about brands that communicate a particular lifestyle, aesthetic, or social identity.",traits:["Identity expression","Symbolic meaning","Aspirational image"],prompt:"What does one of your favorite brands say about you to other people—and to yourself?"},
+rational:{name:"The Rational Evaluator",emoji:"🧠",color:"#a9d5e7",desc:"You like to know what you’re getting. Quality, reliability, useful features, and value for money matter more than hype. A brand wins your loyalty by consistently delivering.",brands:"Think about brands known for dependable quality, useful design, or strong value.",traits:["Quality-focused","Practical","Value-conscious"],prompt:"What evidence makes you trust a brand’s quality or value?"},
+trend:{name:"The Trend Explorer",emoji:"🌈",color:"#b9dfcc",desc:"You love discovering what’s new. New launches, fresh ideas, and emerging brands keep shopping exciting. You’re open to experimenting and don’t mind switching things up.",brands:"Think about brands that surprise you with new ideas, collaborations, or limited releases.",traits:["Curious","Novelty-seeking","Open to change"],prompt:"What was the last new brand you tried—and what made you give it a chance?"},
+value:{name:"The Value Advocate",emoji:"🌿",color:"#c6dfbd",desc:"You care about what a brand stands for. A company’s values, impact, and behavior can matter as much as the product itself. You want your purchases to feel aligned with your beliefs.",brands:"Think about brands whose purpose, ethics, or community commitments resonate with you.",traits:["Values-led","Purpose-aware","Principle-driven"],prompt:"Have you ever chosen—or avoided—a brand because of what it stands for?"},
+rebel:{name:"The Independent Rebel",emoji:"🦋",color:"#f3d4ad",desc:"You prefer making your own choices rather than following the crowd. You enjoy distinctive finds and brands that feel individual. Popularity alone is unlikely to convince you.",brands:"Think about niche, independent, unconventional, or personally meaningful brands.",traits:["Independent","Distinctive","Nonconformist"],prompt:"What makes a brand feel genuinely different rather than simply popular?"}
+};
+const qs=[
+["When choosing a brand, what matters most?",["It feels familiar and I trust it.","It reflects my identity or the image I want.","It offers the best quality for the price.","It feels new, exciting, or different.","Its values match what I believe in.","It feels unique—not what everyone else chooses."]],
+["You find a new brand. What catches your attention first?",["A warm feeling or a story I connect with.","Its image, design, and the lifestyle it represents.","Clear product benefits and good reviews.","A fresh idea or something I haven’t seen before.","Its mission and how it treats people or the planet.","An unusual point of view or distinctive style."]],
+["Your favorite brand announces a new product. You…",["Feel excited because you already love the brand.","Wonder how it fits your personal style.","Compare its features and price with alternatives.","Want to try it as soon as possible.","Check whether the launch aligns with its stated values.","Decide for yourself, regardless of the hype."]],
+["What would make you stop buying from a brand?",["It breaks my trust or disappoints me emotionally.","It no longer represents who I am.","Its quality declines or the price no longer makes sense.","It stops innovating and feels boring.","Its actions conflict with my values.","It becomes too mainstream or predictable."]],
+["Which compliment about your purchase would feel best?",["“You always choose brands you can count on.”","“That brand is so you.”","“That’s a really smart buy.”","“I’ve never seen that before!”","“I love what that brand stands for.”","“That’s such an original choice.”"]],
+["When a friend recommends a popular brand, you…",["Feel reassured if someone you trust loves it.","Consider whether it fits your image.","Look into the product and compare options.","Get curious and want to explore it.","Check whether the company’s values appeal to me.","Prefer to make up my own mind."]],
+["How do you feel about switching brands?",["I’d rather stay with one I know and love.","I switch when another brand fits my identity better.","I switch when I find better quality or value.","I enjoy switching and trying new things.","I switch when another brand better reflects my values.","I switch whenever I feel like it—no need to follow habits."]],
+["What makes an advertisement memorable to you?",["A heartfelt story that stays with me.","A strong image or aspirational lifestyle.","Specific proof of product performance.","A clever, surprising, or playful idea.","A meaningful message or positive impact.","Something unconventional that challenges expectations."]],
+["If your favorite brand were a person, it would be…",["A loyal friend who knows me well.","A confident person with great style.","A reliable expert who gives good advice.","An adventurous friend who’s always discovering things.","A thoughtful person who cares about the world.","A one-of-a-kind person who does things their own way."]],
+["How much do other people’s opinions affect your brand choices?",["I value recommendations from people I trust.","I notice what a brand communicates socially.","I use reviews as evidence to make a good decision.","I enjoy hearing about new discoveries.","I listen, but my values are the deciding factor.","Not much—I make my own choices."]],
+["What do you most want from a brand over time?",["A relationship built on trust and familiarity.","A brand that grows with my identity.","Consistent quality and dependable value.","Fresh ideas and new experiences.","Actions that stay true to its values.","Freedom to choose without being boxed in."]],
+["Which shopping experience sounds most satisfying?",["Finding my familiar favorite exactly as I remember it.","Finding something that feels perfectly ‘me’.","Getting an excellent product at a great price.","Discovering a brand before everyone else does.","Supporting a company whose impact I believe in.","Finding a rare item that feels truly individual."]],
+["A brand makes a mistake. What matters most in its response?",["A sincere apology and rebuilding trust.","Whether its response feels authentic to its identity.","A clear explanation and practical solution.","A willingness to learn and improve quickly.","Taking responsibility and making things right.","Not following a scripted PR response."]],
+["What best describes your relationship with favorite brands?",["Personal and emotional.","A reflection of who I am.","Based on performance and value.","Curious and always evolving.","Connected to shared beliefs.","Independent and on my own terms."]],
+["Choose the sentence that sounds most like you.",["When I love a brand, I really love it.","The brands I choose say something about me.","A good brand delivers what it promises.","There’s always something new to discover.","I want my spending to reflect my values.","I’d rather choose differently than follow the crowd."]]
+];
+const keys=["loyal","status","rational","trend","value","rebel"];let i=0,answers=[];
+function start(){document.getElementById("intro").classList.add("hidden");document.getElementById("quiz").classList.remove("hidden");render()}
+function render(){document.getElementById("qnum").textContent=`QUESTION ${i+1} OF ${qs.length}`;document.getElementById("step").textContent=`${i+1} / ${qs.length}`;document.getElementById("bar").style.width=((i+1)/qs.length*100)+"%";document.getElementById("question").textContent=qs[i][0];let box=document.getElementById("answers");box.innerHTML="";qs[i][1].forEach((a,n)=>{let b=document.createElement("button");b.className="answer";b.textContent=a;b.onclick=()=>choose(n);if(answers[i]===n){b.style.borderColor="#b69bd9";b.style.background="#faf5ff"}box.appendChild(b)})}
+function choose(n){answers[i]=n;if(i<qs.length-1){i++;render()}else showResult()}
+function back(){if(i>0){i--;render()}else{document.getElementById("quiz").classList.add("hidden");document.getElementById("intro").classList.remove("hidden")}}
+function showResult(){let s=Object.fromEntries(keys.map(k=>[k,0]));answers.forEach(n=>s[keys[n]]++);let rank=keys.slice().sort((a,b)=>s[b]-s[a]);let p=profiles[rank[0]];document.getElementById("quiz").classList.add("hidden");document.getElementById("result").classList.remove("hidden");document.getElementById("resultEmoji").textContent=p.emoji;document.getElementById("resultName").textContent=p.name;document.getElementById("resultDesc").textContent=p.desc;document.getElementById("brands").textContent=p.brands;document.getElementById("prompt").textContent=p.prompt;
+document.getElementById("scores").innerHTML=rank.map(k=>`<div class="scoreline"><span>${profiles[k].emoji} ${profiles[k].name}</span><b>${s[k]} / 15</b></div><div class="track"><div class="fill" style="width:${s[k]/15*100}%"></div></div>`).join("");
+document.getElementById("secondary").innerHTML=rank[1]&&s[rank[1]]>0?`<p><b>Your secondary vibe:</b> ${profiles[rank[1]].name}. You may relate to more than one style!</p>`:"";
+document.getElementById("traits").innerHTML=p.traits.map(t=>`<div class="type"><div class="emoji">${p.emoji}</div><h3>${t}</h3><p>A clue to what shapes your brand choices.</p></div>`).join("")}
+function restart(){i=0;answers=[];document.getElementById("result").classList.add("hidden");document.getElementById("intro").classList.remove("hidden")}
+function copyResult(){let name=document.getElementById("resultName").textContent;let desc=document.getElementById("resultDesc").textContent;navigator.clipboard?.writeText(name+"\n"+desc).then(()=>alert("Result copied!")).catch(()=>alert(name))}
+</script></body></html>
